@@ -6,7 +6,7 @@
  */
 
 public class MatrixOperator.Matrix : Object {
-    private Gee.ArrayList<Row> rows = new Gee.ArrayList<Row> ();
+    private Gee.LinkedList<Row> rows = new Gee.LinkedList<Row> ();
 
     public int n_rows {
         get {
@@ -16,7 +16,7 @@ public class MatrixOperator.Matrix : Object {
 
     public int n_columns {
         get {
-            return rows.get (0).n_columns;;
+            return rows.get (0).n_columns;
         }
     }
 
@@ -30,12 +30,15 @@ public class MatrixOperator.Matrix : Object {
         requires(n_rows > 0 && n_columns > 0)
     {
         for (int i = 0; i < n_rows; i++) {
-            add_row ();
+            add_row (n_columns);
         }
     }
 
-    public void add_row () {
-        var row = new Row (n_columns);
+    public void add_row (int columns)
+        requires (columns > 0)
+    {
+        var row = new Row (columns);
+        rows.add (row);
         row.column_modified.connect (on_column_modified);
         row_added (n_rows - 1);
     }
@@ -43,8 +46,9 @@ public class MatrixOperator.Matrix : Object {
     public void add_column ()
         ensures (all_rows_are_equal_sized ())
     {
-        foreach (var row in rows) {
-            row.add_column ();
+        for (int i = 0; i < n_rows; i++) {
+            rows.get (i).add_column ();
+            column_added (i, n_columns - 1);
         }
     }
 
@@ -53,13 +57,15 @@ public class MatrixOperator.Matrix : Object {
         requires (index < n_rows)
     {
         rows.remove_at (index);
+        row_removed (index);
     }
 
     public void remove_column (int column_index)
         ensures (all_rows_are_equal_sized ())
     {
-        foreach (var row in rows) {
-            row.delete_column (column_index);
+        for (int i = 0; i < n_rows; i++) {
+            rows.get(i).delete_column (column_index);
+            column_removed (i, column_index);
         }
     }
 
@@ -67,7 +73,17 @@ public class MatrixOperator.Matrix : Object {
         requires (row_index >= 0 && column_index >= 0)
         requires (row_index < n_rows)
     {
-        rows.get (row_index).set_value_at_index (column_index, value);
+        Row row = rows.get (row_index);
+        double current_value = row.get_value_at_index (column_index);
+
+        // Let's avoid sending signals in case the value is the same
+        if (current_value == value) {
+            message ("Same value found!");
+            return;
+        }
+        row.set_value_at_index (column_index, value);
+
+        message ("Value of row %i, column %i has been changed", row_index, column_index);
     }
 
     public double get_value_at (int row_index, int column_index)

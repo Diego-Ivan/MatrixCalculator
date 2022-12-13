@@ -30,7 +30,7 @@ public class MatrixOperator.Row {
     }
 
     public void add_column () {
-        columns.add (0);
+        columns.add (Random.int_range (0, 5));
     }
 
     public void delete_column (uint index)
