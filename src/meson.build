@@ -9,6 +9,7 @@ matrixoperator_sources = [
 
   # Widgets
   'Widgets/MatrixGrid.vala',
+  'Widgets/NumberEntry.vala',
 ]
 
 matrixoperator_deps = [
