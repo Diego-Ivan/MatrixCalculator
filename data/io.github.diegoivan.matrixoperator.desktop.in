@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=matrixoperator
+Exec=matrixoperator
+Icon=io.github.diegoivan.matrixoperator
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true

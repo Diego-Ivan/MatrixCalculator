@@ -1,0 +1,6 @@
+data/io.github.diegoivan.matrixoperator.desktop.in
+data/io.github.diegoivan.matrixoperator.appdata.xml.in
+data/io.github.diegoivan.matrixoperator.gschema.xml
+src/main.vala
+src/window.vala
+src/window.ui
