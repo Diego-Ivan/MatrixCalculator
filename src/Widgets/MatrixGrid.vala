@@ -14,6 +14,13 @@ public class MatrixOperator.MatrixGrid : Gtk.Grid {
         set {
             _matrix = value;
             populate ();
+
+            // Connect the signals of the matrix
+            matrix.row_added.connect (on_row_added);
+            matrix.row_removed.connect (on_row_removed);
+            matrix.column_added.connect (on_column_added);
+            matrix.column_removed.connect (on_column_removed);
+
             print (matrix.str_serialize ());
         }
     }
@@ -22,17 +29,21 @@ public class MatrixOperator.MatrixGrid : Gtk.Grid {
         Object (matrix: matrix);
     }
 
-    private void on_element_modified (int row, int column)
-        requires (row >= 0 && column >= 0)
-        requires (row < matrix.n_rows)
+    public void query_add_row ()
     {
-        int n_columns = matrix.n_columns;
-        return_if_fail (column < n_columns);
+        matrix.add_row (matrix.n_columns);
+    }
 
-        Gtk.Label? child = (Gtk.Label?) get_child_at (row, column);
-        assert (child != null);
+    public void query_remove_row () {
+        matrix.remove_row (matrix.n_rows - 1);
+    }
 
-        child.label = matrix.get_value_at (row, column).to_string ();
+    public void query_add_column () {
+        matrix.add_column ();
+    }
+
+    public void query_remove_column () {
+        matrix.remove_column (matrix.n_columns - 1);
     }
 
     private void on_row_added (int row_index)
@@ -45,11 +56,11 @@ public class MatrixOperator.MatrixGrid : Gtk.Grid {
          * have to check if the desired row is the first one in order to change the position :)
          */
         Gtk.PositionType position = BOTTOM;
-        unowned Gtk.Label? reference_sibling = (Gtk.Label?) get_child_at (0, row_index - 1);
+        unowned Gtk.Widget? reference_sibling = get_child_at (0, row_index - 1);
 
         if (row_index == 0) {
             position = TOP;
-            reference_sibling = (Gtk.Label?) get_child_at (0, 0);
+            reference_sibling = get_child_at (0, 0);
         }
 
         // Get the first value in the desired row. Create a label with said value, and attach it
@@ -57,8 +68,35 @@ public class MatrixOperator.MatrixGrid : Gtk.Grid {
         Gtk.Widget first_of_the_row = create_widget (first_value);
         attach_next_to (first_of_the_row, reference_sibling, position);
 
-
+        /*
+         * Now that we have allocated space in a row, we can start attaching widgets in said row!
+         */
         int n_columns = matrix.n_columns;
+        for (int i = 1; i < n_columns; i++) {
+            double value = matrix.get_value_at (row_index, i);
+            attach (create_widget (value), i, row_index);
+        }
+    }
+
+    private void on_row_removed (int row_index) {
+        remove_row (row_index);
+    }
+
+    private void on_column_added (int row_index, int column_index) {
+        unowned Gtk.Widget? sibling = get_child_at (column_index - 1, row_index);
+        double value = matrix.get_value_at (row_index, column_index);
+        attach_next_to (create_widget (value), sibling, RIGHT);
+    }
+
+    private void on_column_removed (int row_index, int column_index) {
+        Gtk.Widget child_removed = get_child_at (column_index, row_index);
+        remove (child_removed);
+    }
+
+    private void on_entry_modified (NumberEntry source, double value) {
+        int column, row, width, height;
+        query_child (source, out column, out row, out width, out height);
+        matrix.set_value_at (row, column, value);
     }
 
     private void populate () {
@@ -74,6 +112,9 @@ public class MatrixOperator.MatrixGrid : Gtk.Grid {
     }
 
     private Gtk.Widget create_widget (double value) {
-        return new Gtk.Label (value.to_string ());
+        var entry = new NumberEntry (value);
+        entry.valid_expression_found.connect (on_entry_modified);
+
+        return entry;
     }
 }
