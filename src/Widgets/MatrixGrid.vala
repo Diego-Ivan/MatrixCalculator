@@ -51,7 +51,7 @@ public class MatrixOperator.MatrixGrid : Gtk.Grid {
     {
         /*
          * First, we have to take a reference sibling in order to know where should we put the widget. The default
-         * behavious is picking the row above the desired one and putting it below. Nevertheless,this is not
+         * behaviour is picking the row above the desired one and putting it below. Nevertheless,this is not
          * met when the row is going to be put in the first one, given that the "row above" is null. So, we
          * have to check if the desired row is the first one in order to change the position :)
          */

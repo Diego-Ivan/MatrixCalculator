@@ -6,7 +6,7 @@
  */
 
 public class MatrixOperator.Row {
-    private Gee.LinkedList<double?> columns = new Gee.LinkedList<double?> ();
+    private Gee.ConcurrentList<double?> columns = new Gee.ConcurrentList<double?> ();
     public int n_columns {
         get {
             return columns.size;
@@ -33,17 +33,20 @@ public class MatrixOperator.Row {
         columns.add (Random.int_range (0, 5));
     }
 
-    public void delete_column (uint index)
+    public void delete_column (int index)
         requires (index < n_columns)
+        requires (index >= 0)
     {
-        columns.remove_at ((int) index);
+        columns.remove_at (index);
     }
 
-    public void set_value_at_index (uint index, double value)
+    public void set_value_at_index (int index, double value)
         requires (index < n_columns)
+        requires (index >= 0)
     {
-        columns.insert ((int) index, value);
-        column_modified ((int) index);
+        columns.remove_at (index);
+        columns.insert (index, value);
+        column_modified (index);
     }
 
     public double get_value_at_index (uint index)

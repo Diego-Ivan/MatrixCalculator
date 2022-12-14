@@ -65,6 +65,7 @@ public class MatrixOperator.Matrix : Object {
     {
         for (int i = 0; i < n_rows; i++) {
             rows.get(i).delete_column (column_index);
+            print ("Removing Column %i from row %i\n", column_index, i);
             column_removed (i, column_index);
         }
     }
@@ -115,6 +116,8 @@ public class MatrixOperator.Matrix : Object {
             Row previous = rows.get (i - 1);
             Row current = rows.get (i);
 
+            message ("Previous Counter: %i, Current Counter: %i", previous.n_columns, current.n_columns);
+
             if (previous.n_columns != current.n_columns) {
                 return false;
             }
@@ -124,6 +127,8 @@ public class MatrixOperator.Matrix : Object {
 
     private void on_column_modified (Row source, int column_index) {
         element_modified (get_row_index (source), column_index);
+
+        message (source.n_columns.to_string ());
     }
 
     private int get_row_index (Row row) {
