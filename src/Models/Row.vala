@@ -49,10 +49,11 @@ public class MatrixOperator.Row {
         column_modified (index);
     }
 
-    public double get_value_at_index (uint index)
+    public double get_value_at_index (int index)
         requires (index < n_columns)
+        requires (index >= 0)
     {
-        return columns.get ((int) index);
+        return columns.get (index);
     }
 
     public void add_row (Row second_row)

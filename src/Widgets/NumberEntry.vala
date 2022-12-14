@@ -20,6 +20,18 @@ public class MatrixOperator.NumberEntry : Gtk.Entry {
             add_css_class ("error");
         }
     }
+
+    public double _value;
+    public double @value {
+        get {
+            return _value;
+        }
+        set {
+            _value = value;
+            text = @value.to_string ();
+        }
+    }
+
     public signal void valid_expression_found (double @value);
 
     public NumberEntry (double value) {
@@ -55,6 +67,7 @@ public class MatrixOperator.NumberEntry : Gtk.Entry {
             double?[] value_buffer = new double?[2];
             for (int i = 0; i < numbers.length; i++) {
                 assert (numbers[i] != null);
+                // We will also avoid empty strings, for some reason they're parsed as 0
                 if (!double.try_parse (numbers[i], out value_buffer[i]) || numbers[i] == "") {
                     is_number = false;
                     return;

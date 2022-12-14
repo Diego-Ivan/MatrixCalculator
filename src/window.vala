@@ -36,12 +36,14 @@ namespace MatrixOperator {
             var new_column_button = new Gtk.Button.with_label ("Add a new Column");
             var remove_column_button = new Gtk.Button.with_label ("Remove column");
             var serialize_button = new Gtk.Button.with_label ("Serialize");
+            var swap = new Gtk.Button.with_label ("Swap Rows");
             main_box.append (matrix_grid);
             main_box.append (add_button);
             main_box.append (remove_button);
             main_box.append (new_column_button);
             main_box.append (remove_column_button);
             main_box.append (serialize_button);
+            main_box.append (swap);
 
             add_button.clicked.connect (() => {
                 matrix_grid.query_add_row ();
@@ -61,6 +63,10 @@ namespace MatrixOperator {
 
             serialize_button.clicked.connect (() => {
                 print (matrix_grid.matrix.str_serialize ());
+            });
+
+            swap.clicked.connect (() => {
+                matrix_grid.query_swap (2, 0);
             });
         }
     }

@@ -20,6 +20,7 @@ public class MatrixOperator.MatrixGrid : Gtk.Grid {
             matrix.row_removed.connect (on_row_removed);
             matrix.column_added.connect (on_column_added);
             matrix.column_removed.connect (on_column_removed);
+            matrix.element_modified.connect (on_matrix_element_changed);
 
             print (matrix.str_serialize ());
         }
@@ -44,6 +45,10 @@ public class MatrixOperator.MatrixGrid : Gtk.Grid {
 
     public void query_remove_column () {
         matrix.remove_column (matrix.n_columns - 1);
+    }
+
+    public void query_swap (int first_index, int second_index) {
+        matrix.swap_rows (first_index, second_index);
     }
 
     private void on_row_added (int row_index)
@@ -97,6 +102,12 @@ public class MatrixOperator.MatrixGrid : Gtk.Grid {
         int column, row, width, height;
         query_child (source, out column, out row, out width, out height);
         matrix.set_value_at (row, column, value);
+    }
+
+    private void on_matrix_element_changed (int row_index, int column_index) {
+        var entry = (NumberEntry) get_child_at (column_index, row_index);
+        message (matrix.get_value_at (row_index, column_index).to_string ());
+        entry.value = matrix.get_value_at (row_index, column_index);
     }
 
     private void populate () {
