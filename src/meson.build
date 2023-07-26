@@ -2,6 +2,10 @@ matrixoperator_sources = [
   'main.vala',
   'application.vala',
   'window.vala',
+
+  # Models
+  'Models/MatrixModel.vala',
+  'Models/SquareMatrixModel.vala',
 ]
 
 matrixoperator_deps = [
