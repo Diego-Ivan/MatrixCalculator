@@ -14,17 +14,20 @@ public class Matrices.Factories.LabelWidgetFactory : MatrixWidgetFactory {
 public class Matrices.LabelMatrixWidget : MatrixWidget {
     private Gtk.Label label = new Gtk.Label ("");
 
+    private double _value;
     public override double value {
         get {
-            return matrix_item.value;
+            return _value;
         }
         set {
-            label.label = value.to_string ();
+            _value = value;
+            label.label = this.value.to_string ();
+            debug ("Value changed");
         }
     }
 
     public LabelMatrixWidget (Models.MatrixItem matrix_item) {
-        Object (matrix_item: matrix_item);
+        this.value = matrix_item.value;
     }
 
     construct {
