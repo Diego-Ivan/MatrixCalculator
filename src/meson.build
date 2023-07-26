@@ -2,14 +2,6 @@ matrixoperator_sources = [
   'main.vala',
   'application.vala',
   'window.vala',
-
-  # Models
-  'Models/Matrix.vala',
-  'Models/Row.vala',
-
-  # Widgets
-  'Widgets/MatrixGrid.vala',
-  'Widgets/NumberEntry.vala',
 ]
 
 matrixoperator_deps = [
