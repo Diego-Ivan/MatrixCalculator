@@ -1,6 +1,6 @@
 /* application.vala
  *
- * Copyright 2022 Diego Iván
+ * Copyright 2022-2023 Diego Iván
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-namespace MatrixOperator {
+namespace Matrices {
     public class Application : Adw.Application {
         public Application () {
             Object (application_id: "io.github.diegoivan.matrixoperator", flags: ApplicationFlags.FLAGS_NONE);
@@ -38,7 +38,7 @@ namespace MatrixOperator {
             base.activate ();
             var win = this.active_window;
             if (win == null) {
-                win = new MatrixOperator.Window (this);
+                win = new Matrices.Window (this);
             }
             win.present ();
         }

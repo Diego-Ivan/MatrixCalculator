@@ -18,13 +18,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-namespace MatrixOperator {
+namespace Matrices {
     [GtkTemplate (ui = "/io/github/diegoivan/matrixoperator/window.ui")]
     public class Window : Adw.ApplicationWindow {
         [GtkChild]
         private unowned Gtk.Box main_box;
         public Window (Gtk.Application app) {
             Object (application: app);
+        }
+
+        construct {
+            var square_matrix = new Models.SquareMatrixModel (4);
+            print (@"\n$square_matrix");
         }
     }
 }

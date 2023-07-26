@@ -1,6 +1,6 @@
 /* main.vala
  *
- * Copyright 2022 Diego Iván
+ * Copyright 2022-2023 Diego Iván
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,6 @@
  */
 
 int main (string[] args) {
-    var app = new MatrixOperator.Application ();
+    var app = new Matrices.Application ();
     return app.run (args);
 }
