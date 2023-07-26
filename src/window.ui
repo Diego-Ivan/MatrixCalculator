@@ -18,6 +18,11 @@
             </child>
           </object>
         </child>
+
+        <child>
+          <object class="MatricesViewsMatrixGridView" id="grid_view">
+          </object>
+        </child>
       </object>
     </child>
   </template>

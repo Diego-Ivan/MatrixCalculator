@@ -22,7 +22,7 @@ namespace Matrices {
     [GtkTemplate (ui = "/io/github/diegoivan/matrixoperator/window.ui")]
     public class Window : Adw.ApplicationWindow {
         [GtkChild]
-        private unowned Gtk.Box main_box;
+        private unowned Views.MatrixGridView grid_view;
         public Window (Gtk.Application app) {
             Object (application: app);
         }
@@ -30,6 +30,8 @@ namespace Matrices {
         construct {
             var square_matrix = new Models.SquareMatrixModel (4);
             print (@"\n$square_matrix");
+            grid_view.matrix_model = square_matrix;
+            grid_view.factory = new Factories.LabelWidgetFactory ();
         }
     }
 }
