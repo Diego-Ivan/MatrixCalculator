@@ -16,6 +16,13 @@
                 <property name="menu-model">primary_menu</property>
               </object>
             </child>
+
+            <child>
+              <object class="GtkButton" id="button">
+                <property name="label">Random Modify</property>
+                <signal name="clicked" handler="on_random_button_clicked"/>
+              </object>
+            </child>
           </object>
         </child>
 

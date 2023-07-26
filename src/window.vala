@@ -33,5 +33,17 @@ namespace Matrices {
             grid_view.matrix_model = square_matrix;
             grid_view.factory = new Factories.LabelWidgetFactory ();
         }
+
+        [GtkCallback]
+        private void on_random_button_clicked () {
+            Models.MatrixModel model = grid_view.matrix_model;
+            int rand_row = Random.int_range (0, model.rows);
+            int rand_column = Random.int_range (0, model.columns);
+            int rand_value = Random.int_range (-10, 10);
+
+            debug (@"Randomly setting $rand_row,$rand_column to $rand_value");
+            model[rand_row, rand_column] = rand_value;
+            print (@"\n$model");
+        }
     }
 }

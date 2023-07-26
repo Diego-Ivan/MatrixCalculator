@@ -13,6 +13,7 @@ public class Matrices.Views.MatrixGridView : Gtk.Grid {
         }
         set {
             _matrix_model = value;
+            matrix_model.value_changed.connect (on_model_value_changed);
             if (factory != null) {
                 remove_all_children ();
                 populate ();
@@ -33,6 +34,20 @@ public class Matrices.Views.MatrixGridView : Gtk.Grid {
                 populate ();
             }
         }
+    }
+
+    construct {
+        this.column_homogeneous = true;
+    }
+
+    private void on_model_value_changed (int row, int column) {
+        var child = (MatrixWidget) get_child_at (column, row);
+        if (child == null) {
+            critical (@"Matrix sent a changed signal for [$row,$column] but this does not have a child!");
+            assert_not_reached ();
+        }
+
+        child.value = matrix_model[row, column];
     }
 
     protected void populate () {
