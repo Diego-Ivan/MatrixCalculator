@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <requires lib="Adw" version="1.0"/>
-  <template class="MatrixOperatorWindow" parent="AdwApplicationWindow">
+  <template class="MatricesWindow" parent="AdwApplicationWindow">
     <property name="default-width">600</property>
     <property name="default-height">300</property>
     <child>
@@ -16,6 +16,18 @@
                 <property name="menu-model">primary_menu</property>
               </object>
             </child>
+
+            <child>
+              <object class="GtkButton" id="button">
+                <property name="label">Random Modify</property>
+                <signal name="clicked" handler="on_random_button_clicked"/>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="MatricesViewsMatrixGridView" id="grid_view">
           </object>
         </child>
       </object>

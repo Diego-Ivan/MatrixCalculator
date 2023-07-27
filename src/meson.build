@@ -4,18 +4,22 @@ matrixoperator_sources = [
   'window.vala',
 
   # Models
-  'Models/Matrix.vala',
-  'Models/Row.vala',
+  'Models/MatrixModel.vala',
+  'Models/SquareMatrixModel.vala',
+  'Models/MatrixItem.vala',
 
-  # Widgets
-  'Widgets/MatrixGrid.vala',
-  'Widgets/NumberEntry.vala',
+  # Views
+  'Views/MatrixGridView.vala',
+
+  # Factories
+  'Factories/MatrixWidgetFactory.vala',
+  'Factories/LabelWidgetFactory.vala',
+  'Factories/SpinButtonWidgetFactory.vala',
 ]
 
 matrixoperator_deps = [
   dependency('gtk4'),
   dependency('libadwaita-1'),
-  dependency('gee-0.8'),
 ]
 
 matrixoperator_sources += gnome.compile_resources('matrixoperator-resources',

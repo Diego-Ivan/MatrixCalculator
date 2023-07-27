@@ -1,6 +1,6 @@
 /* window.vala
  *
- * Copyright 2022 Diego Iván
+ * Copyright 2022-2023 Diego Iván
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,56 +18,32 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-namespace MatrixOperator {
+namespace Matrices {
     [GtkTemplate (ui = "/io/github/diegoivan/matrixoperator/window.ui")]
     public class Window : Adw.ApplicationWindow {
         [GtkChild]
-        private unowned Gtk.Box main_box;
-
-        private MatrixGrid matrix_grid = new MatrixGrid (new Matrix (3,4));
-
+        private unowned Views.MatrixGridView grid_view;
         public Window (Gtk.Application app) {
             Object (application: app);
         }
 
         construct {
-            var add_button = new Gtk.Button.with_label ("Add a Row");
-            var remove_button = new Gtk.Button.with_label ("Remove a row");
-            var new_column_button = new Gtk.Button.with_label ("Add a new Column");
-            var remove_column_button = new Gtk.Button.with_label ("Remove column");
-            var serialize_button = new Gtk.Button.with_label ("Serialize");
-            var swap = new Gtk.Button.with_label ("Swap Rows");
-            main_box.append (matrix_grid);
-            main_box.append (add_button);
-            main_box.append (remove_button);
-            main_box.append (new_column_button);
-            main_box.append (remove_column_button);
-            main_box.append (serialize_button);
-            main_box.append (swap);
+            var square_matrix = new Models.SquareMatrixModel (4);
+            print (@"\n$square_matrix");
+            grid_view.matrix_model = square_matrix;
+            grid_view.factory = new Factories.SpinButtonWidgetFactory ();
+        }
 
-            add_button.clicked.connect (() => {
-                matrix_grid.query_add_row ();
-            });
+        [GtkCallback]
+        private void on_random_button_clicked () {
+            Models.MatrixModel model = grid_view.matrix_model;
+            int rand_row = Random.int_range (0, model.rows);
+            int rand_column = Random.int_range (0, model.columns);
+            int rand_value = Random.int_range (-10, 10);
 
-            remove_button.clicked.connect (()=> {
-                matrix_grid.query_remove_row ();
-            });
-
-            new_column_button.clicked.connect (() => {
-                matrix_grid.query_add_column ();
-            });
-
-            remove_column_button.clicked.connect (() => {
-                matrix_grid.query_remove_column ();
-            });
-
-            serialize_button.clicked.connect (() => {
-                print (matrix_grid.matrix.str_serialize ());
-            });
-
-            swap.clicked.connect (() => {
-                matrix_grid.query_swap (2, 0);
-            });
+            debug (@"Randomly setting $rand_row,$rand_column to $rand_value");
+            model[rand_row, rand_column] = rand_value;
+            print (@"\n$model");
         }
     }
 }
