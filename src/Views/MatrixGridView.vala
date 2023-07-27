@@ -56,7 +56,8 @@ public class Matrices.Views.MatrixGridView : Gtk.Grid {
                 var item = new Models.MatrixItem () {
                     value = matrix_model[i,j],
                     row = i,
-                    column = j
+                    column = j,
+                    matrix_model = matrix_model
                 };
                 attach (factory.create_matrix_widget_for_item (item), j, i);
             }

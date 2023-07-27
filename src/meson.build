@@ -14,6 +14,7 @@ matrixoperator_sources = [
   # Factories
   'Factories/MatrixWidgetFactory.vala',
   'Factories/LabelWidgetFactory.vala',
+  'Factories/SpinButtonWidgetFactory.vala',
 ]
 
 matrixoperator_deps = [

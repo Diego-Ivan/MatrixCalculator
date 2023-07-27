@@ -9,4 +9,5 @@ public class Matrices.Models.MatrixItem : Object {
     public double value { get; set; }
     public int row { get; set; }
     public int column { get; set; }
+    public unowned MatrixModel matrix_model { get; set; }
 }

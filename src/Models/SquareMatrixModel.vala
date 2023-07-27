@@ -52,6 +52,15 @@ public class Matrices.Models.SquareMatrixModel : MatrixModel {
     public override void @set (int row, int column, double @value)
         requires (is_valid_space (row, column))
     {
+        double current_value = matrix[row][column];
+        if (current_value == value) {
+            // We'll avoid setting the same value.
+            debug ("Same value being set detected! Exiting setter");
+            return;
+        }
+
+        debug (@"Value at: $row,$column has changed: $current_value -> $value");
+
         matrix[row][column] = @value;
         value_changed (row, column);
     }

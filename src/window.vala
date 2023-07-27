@@ -31,7 +31,7 @@ namespace Matrices {
             var square_matrix = new Models.SquareMatrixModel (4);
             print (@"\n$square_matrix");
             grid_view.matrix_model = square_matrix;
-            grid_view.factory = new Factories.LabelWidgetFactory ();
+            grid_view.factory = new Factories.SpinButtonWidgetFactory ();
         }
 
         [GtkCallback]
